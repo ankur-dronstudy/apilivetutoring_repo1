@@ -1,0 +1,32 @@
+public function create(Request $request) {
+
+        $response = [ 'status' => false];
+        $data['title'] = $request->get('t');
+        $data['content'] = $request->get('c');
+        $data['thread_id'] = $request->get('tid');
+        $data['unit_id'] = $request->get('uid');
+        
+        $validation = Validator::make($data, DiscusssionForumPost::$rules);
+        if ($validation->fails()) {
+            $response['error'] = $validation->messages();
+            return response($response)->header('Content-Type', 'application/json');
+        } else {
+            $data['user_id'] = SSAuth::user()->id;
+            $data['created'] = date('Y-m-d H:i:s');
+            $data['title'] = substr($data['title'], 0, 100);
+            $data['content'] = substr($data['content'], 0, 1000);
+            $thread_id = $data['thread_id'];
+
+            $insert=DiscusssionForumPost::create($data);
+
+            if ($insert) {
+                $thread = ForumThread::where('subject_id', $thread_id)->first(['id', 'posts']);
+
+                $thread->posts = $thread->posts + 1;
+                $thread->save();
+                $response['status'] = true;
+                $response['id']=$insert['id'];
+            }
+        }
+        return response($response)->header('Content-Type', 'application/json');
+    }

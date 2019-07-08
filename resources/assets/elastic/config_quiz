@@ -1,0 +1,96 @@
+{
+    "settings":{
+        "analysis": {
+            "filter": {
+                "stop_filter": {
+                    "type": "stop",
+                    "stopwords": ["¿?_english_¿?"]
+                },
+                "stemmer_filter": {
+                    "type": "stemmer",
+                    "name": "english"
+                },                
+                "nGram_filter": {
+                    "type": "nGram",
+                    "min_gram": 2,
+                    "max_gram": 20,
+                    "token_chars": [
+                        "letter",
+                        "digit",
+                        "punctuation",
+                        "symbol"
+                    ]
+                }
+            },
+            "analyzer": {
+                "ss_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop_filter", "stemmer_filter"]
+                },
+                "nGram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "nGram_filter"
+                    ]
+                },
+                "whitespace_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings":{
+       "data": {
+            "properties": {
+                "id":{
+                    "type": "integer"
+                },	
+                "username": {
+                    "type": "string"
+                },
+                "exam": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "subject": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "topic": {
+                    "type": "string"
+                },
+                "subtopic": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "tags":{
+                	"type":"string",
+                	"analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "created": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd"
+                }
+            }
+        }
+    }
+}

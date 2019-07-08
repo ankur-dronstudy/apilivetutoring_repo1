@@ -1,0 +1,106 @@
+{
+    "settings":{
+        "analysis": {
+            "filter": {
+                "stop_filter": {
+                    "type": "stop",
+                    "stopwords": ["¿?_english_¿?"]
+                },
+                "stemmer_filter": {
+                    "type": "stemmer",
+                    "name": "english"
+                },                
+                "nGram_filter": {
+                    "type": "nGram",
+                    "min_gram": 4,
+                    "max_gram": 20,
+                    "token_chars": [
+                        "letter",
+                        "digit",
+                        "punctuation",
+                        "symbol"
+                    ]
+                }
+            },
+            "analyzer": {
+                "ss_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop_filter", "stemmer_filter"]
+                },
+                "nGram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "nGram_filter"
+                    ]
+                },
+                "whitespace_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings":{
+       "data": {
+            "properties": {
+               "id":{
+                    "type": "integer"
+               },
+               "user_created":{
+                    "type": "integer"
+                },
+                "user_updated":{
+                    "type": "string"
+                },
+                "sequence":{
+                    "type": "integer"
+                },
+                "subject_id":{
+                    "type": "integer"
+                },	
+                "subject": {
+                    "type": "string"
+                },
+                "chapter_id": {
+                    "type": "integer"
+                },
+                "chapter": {
+                    "type":"string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "topic": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "tags": {
+                    "type":"string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "content":{
+                    "type":"string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "created": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd'T'HH:mm:ss"
+                },
+                "updated": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd'T'HH:mm:ss"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+/vendor
+.env
+/nbproject/*
+bootstrap/cache/compiled.php
+bootstrap/cache/services.json
+

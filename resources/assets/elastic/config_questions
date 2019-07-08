@@ -1,0 +1,122 @@
+{
+    "settings":{
+        "analysis": {
+            "filter": {
+                "stop_filter": {
+                    "type": "stop",
+                    "stopwords": ["¿?_english_¿?"]
+                },
+                "stemmer_filter": {
+                    "type": "stemmer",
+                    "name": "english"
+                },                
+                "nGram_filter": {
+                    "type": "nGram",
+                    "min_gram": 2,
+                    "max_gram": 20,
+                    "token_chars": [
+                        "letter",
+                        "digit",
+                        "punctuation",
+                        "symbol"
+                    ]
+                }
+            },
+            "analyzer": {
+                "ss_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop_filter", "stemmer_filter"]
+                },
+                "nGram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "nGram_filter"
+                    ]
+                },
+                "whitespace_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings":{
+        "data": {
+            "properties": {
+                "user_id":{
+                    "type": "string"
+                },	
+                "exam": {
+                    "type": "string"
+                    },
+                "subject": {
+                    "type": "string"
+                     },
+                "chapter": {
+                    "type": "string","index": "not_analyzed"
+                   },
+                "category": {
+                    "type": "string","index": "not_analyzed"
+                   },
+                "topic": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+               "type": {
+                    "type": "string"
+                },
+                "passage": {
+                    "type": "string", "index": "no"
+                },
+                "subquestion": {
+                    "type": "nested"
+                },
+                "question": {
+                    "type": "string", "index": "no"
+                },
+                "duration":{
+                    "type": "long"
+                },
+                "tags": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "image": {
+                    "type": "string", "index": "no"
+                },
+                "answer": {
+                    "type": "string", "index": "no"
+                },
+                "solution": {
+                    "type": "string", "index": "no"
+                },
+                "hint": {
+                    "type": "string", "index": "no"
+                },
+                "options": {
+                    "type": "string", "index": "no"
+                },
+                "marks": {
+                    "type": "nested"
+                },
+                "difficulty": {
+                    "type": "integer", "null_value": 1
+                },
+                "created": {
+                    "type":   "date",
+                    "format": "yyyy-MM-dd"
+                }
+            }
+        }
+    }
+}

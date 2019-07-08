@@ -1,0 +1,76 @@
+{
+    "settings":{
+        "analysis": {
+            "filter": {
+                "stop_filter": {
+                    "type": "stop",
+                    "stopwords": ["¿?_english_¿?"]
+                },
+                "stemmer_filter": {
+                    "type": "stemmer",
+                    "name": "english"
+                },                
+                "nGram_filter": {
+                    "type": "nGram",
+                    "min_gram": 2,
+                    "max_gram": 20,
+                    "token_chars": [
+                        "letter",
+                        "digit",
+                        "punctuation",
+                        "symbol"
+                    ]
+                }
+            },
+            "analyzer": {
+                "analyzer_startswith":{
+                    "tokenizer":"keyword",
+                    "filter":"lowercase"
+                },
+                "ss_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop_filter", "stemmer_filter"]
+                },
+                "nGram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "nGram_filter"
+                    ]
+                },
+                "whitespace_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings":{
+       "data": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "analyzer":"analyzer_startswith",
+                    "search_analyzer":"analyzer_startswith"
+                },
+                "state": {
+                    "type": "string",
+                    "analyzer":"analyzer_startswith",
+                    "search_analyzer":"analyzer_startswith"
+                },
+                "pincode": {
+                    "type": "string",
+                    "analyzer":"analyzer_startswith",
+                    "search_analyzer":"analyzer_startswith"
+                }
+            }
+        }
+    }
+}

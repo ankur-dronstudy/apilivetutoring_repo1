@@ -1,0 +1,85 @@
+{
+    "settings":{
+        "analysis": {
+            "filter": {
+                "stop_filter": {
+                    "type": "stop",
+                    "stopwords": ["¿?_english_¿?"]
+                },
+                "stemmer_filter": {
+                    "type": "stemmer",
+                    "name": "english"
+                },                
+                "nGram_filter": {
+                    "type": "nGram",
+                    "min_gram": 2,
+                    "max_gram": 10,
+                    "token_chars": [
+                        "letter",
+                        "digit",
+                        "punctuation",
+                        "symbol"
+                    ]
+                }
+            },
+            "analyzer": {
+                "ss_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop_filter", "stemmer_filter"]
+                },
+                "nGram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "nGram_filter"
+                    ]
+                },
+                "whitespace_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "whitespace",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings":{
+       "data": {
+            "properties": {
+                "id":{
+                    "type": "integer"
+                },	
+                "name": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                 "address": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "city": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "state": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                },
+                "pincode": {
+                    "type": "string",
+                    "analyzer":"nGram_analyzer",
+                    "search_analyzer":"ss_analyzer"
+                }
+            }
+        }
+    }
+}
