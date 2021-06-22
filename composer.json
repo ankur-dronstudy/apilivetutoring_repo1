@@ -9,7 +9,7 @@
         "laravel/framework": "5.1.*",
         "lcobucci/jwt": "^3.1",
         "guzzlehttp/guzzle": "~6.0",
-        "phpmailer/phpmailer": "^5.2",
+        "phpmailer/phpmailer": "^6.5",
         "aws/aws-sdk-php-laravel": "~3.0",
         "graham-campbell/flysystem": "~2.1",
         "league/flysystem-aws-s3-v3": "~1.0",
